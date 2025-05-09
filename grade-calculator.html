@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Grade Calculator (4.0 System)</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+    label { display: block; margin-top: 15px; }
+    input { width: 100%; padding: 8px; margin-top: 5px; }
+    button { margin-top: 20px; padding: 10px 20px; font-size: 1em; }
+    .result { margin-top: 25px; font-size: 1.2em; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>Subject Grade Calculator (4.0 System)</h2>
+
+  <form id="gradeForm">
+    <label for="mj">Midterm - Jury Average (0–4):</label>
+    <input type="number" step="0.01" id="mj" min="0" max="4" required>
+
+    <label for="mt">Midterm - Teacher Score (0–4):</label>
+    <input type="number" step="0.01" id="mt" min="0" max="4" required>
+
+    <label for="fj">Final - Jury Average (0–4):</label>
+    <input type="number" step="0.01" id="fj" min="0" max="4" required>
+
+    <label for="ft">Final - Teacher Score (0–4):</label>
+    <input type="number" step="0.01" id="ft" min="0" max="4" required>
+
+    <button type="submit">Calculate Final Grade</button>
+  </form>
+
+  <div class="result" id="result"></div>
+
+  <script>
+    function convertToLetter(gpa) {
+      if (gpa >= 3.85) return "A";
+      else if (gpa >= 3.5) return "B+";
+      else if (gpa >= 3.0) return "B";
+      else if (gpa >= 2.5) return "C+";
+      else if (gpa >= 2.0) return "C";
+      else if (gpa >= 1.5) return "D+";
+      else if (gpa >= 1.0) return "D";
+      else return "F";
+    }
+
+    document.getElementById("gradeForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const mj = parseFloat(document.getElementById("mj").value);
+      const mt = parseFloat(document.getElementById("mt").value);
+      const fj = parseFloat(document.getElementById("fj").value);
+      const ft = parseFloat(document.getElementById("ft").value);
+
+      const midterm = (mj * 0.4) + (mt * 0.6);
+      const final = (fj * 0.4) + (ft * 0.6);
+      const finalGrade = (midterm * 0.4) + (final * 0.6);
+      const letter = convertToLetter(finalGrade);
+
+      document.getElementById("result").textContent =
+        `Final Grade: ${finalGrade.toFixed(2)} (Letter Grade: ${letter})`;
+    });
+  </script>
+</body>
+</html>
